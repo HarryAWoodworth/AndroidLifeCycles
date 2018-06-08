@@ -36,13 +36,16 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences sharedpreferences;
     private static final String STATELIST = "State_List";
     SharedPreferences.Editor editor;
+
     // The data we are saving
     private ArrayList<String> data;
     private String[] data_strarr;
+
     // RecyclerView stuff
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     private RecyclerAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
     // Button
     @BindView(R.id.clear_button) Button clear_button;
 
@@ -58,17 +61,22 @@ public class MainActivity extends AppCompatActivity
         // Open shared preferences and init data
         sharedpreferences = getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE);
         data = new ArrayList<>();
+
         // Preferences Editor
         editor = sharedpreferences.edit();
 
         // Get the data from SharedPreferences as a String
         String data_str = sharedpreferences.getString(STATELIST,"");
+
         // Delimit it by ',' to insert into data
         for(String str: data_str.split(",")) data.add(str);
+
         // Add 'onCreate'
         data.add("Create");
 
         // Set mRecyclerView to a fixed size
+        mRecyclerView.setHasFixedSize(true);
+
         //mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
 
@@ -81,7 +89,7 @@ public class MainActivity extends AppCompatActivity
         mAdapter = new RecyclerAdapter(data_strarr);
         mRecyclerView.setAdapter(mAdapter);
 
-        Toast.makeText(this, "Created! Data Size:" + data.size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Created", Toast.LENGTH_SHORT).show();
     }
 
     // Called when the app is started after being created/restarted
@@ -90,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
         data.add("Start");
         saveState();
-        Toast.makeText(this, "Started! Data Size:" + data.size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Started", Toast.LENGTH_SHORT).show();
     }
 
     // Called when the app is brought back in focus
@@ -99,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         data.add("Resume");
         saveState();
-        Toast.makeText(this, "Resumed! Data Size:" + data.size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Resumed", Toast.LENGTH_SHORT).show();
     }
 
     // Called when the app is brought out of focus but still visible
@@ -108,7 +116,7 @@ public class MainActivity extends AppCompatActivity
         super.onPause();
         data.add("Pause");
         saveState();
-        Toast.makeText(this, "Paused! Data Size:" + data.size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Paused", Toast.LENGTH_SHORT).show();
     }
 
     // Called when the app is brought out of focus and is no longer visible
@@ -117,7 +125,7 @@ public class MainActivity extends AppCompatActivity
         super.onStop();
         data.add("Stop");
         saveState();
-        Toast.makeText(this, "Stopped! Data Size:" + data.size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Stopped", Toast.LENGTH_SHORT).show();
     }
 
     // Called when the app is destroyed
@@ -126,7 +134,7 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
         data.add("Destroy");
         saveState();
-        Toast.makeText(this, "Destroyed! Data Size:" + data.size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Destroyed", Toast.LENGTH_SHORT).show();
     }
 
     // Clear data and update recyclerView
@@ -134,7 +142,7 @@ public class MainActivity extends AppCompatActivity
     {
         data.clear();
         saveState();
-        Toast.makeText(this, "Cleared!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "RecycleView Cleared", Toast.LENGTH_SHORT).show();
     }
 
     // Saves to SharedPreferences using Editor
@@ -145,8 +153,10 @@ public class MainActivity extends AppCompatActivity
         StringBuilder sb = new StringBuilder();
         for (String str : data_strarr)
             sb.append(str).append(",");
+
         // Put it into SharedPreferences under 'STATELIST'
         editor.putString(STATELIST,sb.toString());
+
         // Commit the edit
         editor.commit();
         mAdapter.updateData(data_strarr);
