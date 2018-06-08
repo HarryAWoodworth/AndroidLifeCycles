@@ -13,8 +13,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     // Provide a reference to the views for each data item
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // Each data item is a String in a TextView
-        public TextView mTextView;
-        public ViewHolder(TextView v) {
+        TextView mTextView;
+        ViewHolder(TextView v) {
             super(v);
             mTextView = v;
         }
@@ -26,7 +26,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     // Constructor
-    public RecyclerAdapter(String[] _data) {
+    private RecyclerAdapter(String[] _data) {
         data = _data;
     }
 
